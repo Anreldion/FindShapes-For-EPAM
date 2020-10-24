@@ -1,0 +1,71 @@
+﻿<Window x:Class="Find.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Find"
+        mc:Ignorable="d"
+        Title="Фигуры на плоскости" Height="633" Width="715" MinHeight="250" MinWidth="715" FontSize="14" WindowStartupLocation="CenterScreen">
+    <Grid Background="GhostWhite">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition/>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="72.04"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="113"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="113"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="path_to_file_textbox" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Margin="5,10,-3,10" Text="Путь" TextWrapping="Wrap" BorderBrush="#FFBFBFFD" FontSize="12" Grid.Column="1"/>
+            <Button x:Name="saveFile_button" Focusable="False" Margin="10,10,5,10" BorderBrush="#FFBFBFFD" FontSize="12" Background="White" Content="Сохранить" Click="SaveFile_button_Click"/>
+            <Button x:Name="select_folder_button" Grid.Column="2" Focusable="False" Margin="0,10,10,10" Click="OpenDocument_button_Click" BorderBrush="#FFBFBFFD" FontSize="12" Background="White">
+                <TextBlock Text="Обзор" TextWrapping="Wrap"/>
+            </Button>
+        </Grid>
+        <StackPanel Grid.Row="3" Margin="10,5,10,10">
+            <TextBlock x:Name="deltaPerimeterTextBlock" Text="Cредний периметр: 0" TextWrapping="Wrap" TextAlignment="Left" FontFamily="Courier New" FontSize="12"/>
+            <TextBlock x:Name="deltaAreaTextBlock" Text="Cредняя площадь: 0" TextWrapping="Wrap" TextAlignment="Left" FontFamily="Courier New" FontSize="12"/>
+            <TextBlock x:Name="maxAreaTypeFigureTextBlock" Text="Фигура наибольшей площади: -" TextWrapping="Wrap" TextAlignment="Left" FontFamily="Courier New" FontSize="12"/>
+            <TextBlock x:Name="maxDeltaPerimeterTypeFigureTextBlock" Text="Тип фигуры с наибольшим средним периметром: -" TextWrapping="Wrap" TextAlignment="Left" FontFamily="Courier New" FontSize="12"/>
+        </StackPanel>
+        <RichTextBox x:Name="editor_richtextbox" Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="10,0,10,0" FontSize="12" FontFamily="Courier New">
+            <FlowDocument>
+                <Paragraph>
+
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+        <Grid Grid.Row="2" Margin="10,-1,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="89"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="89"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="1,0,0,0" Width="468">
+                <Button x:Name="addTrapezoidButton" Focusable="False" Content="Трапеция" BorderBrush="#FFBFBFFD" Background="White" Grid.Column="2" Margin="0,0,5,0" Click="AddTrapezoidButton_Click" Width="76">
+                    <Button.ToolTip>
+                        <StackPanel>
+                            <Label Content="Trapezoid" FontWeight="Bold"/>
+                            <TextBlock FontFamily="Courier New">
+                                <Run Text="  __b__"/><LineBreak/><Run Text="a/_____\c"/><LineBreak/><Run Text="    d"/><LineBreak/><Run Text="Порядок сторон трапеции"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Button.ToolTip>
+                </Button>
+                <Button x:Name="addСircleButton" ToolTip="Circle" Focusable="False" Content="Окружность" BorderBrush="#FFBFBFFD" Background="White" Grid.Column="3" Margin="0,0,5,0" Click="AddСircleButton_Click" Width="93"/>
+                <Button x:Name="addRectangleButton" ToolTip="Rectangle" Focusable="False" Content="Прямоугольник" BorderBrush="#FFBFBFFD" Background="White" Grid.Column="4" Margin="0,0,5,0" Click="AddRectangleButton_Click" Width="115"/>
+                <Button x:Name="addSquareButton" ToolTip="Square" Focusable="False" Content="Квадрат"  BorderBrush="#FFBFBFFD" Background="White" Grid.Column="5" Margin="0,0,5,0" Click="AddSquareButton_Click" Width="67"/>
+                <Button x:Name="addTriangleButton" ToolTip="Triangle" Focusable="False" Content="Треугольник" BorderBrush="#FFBFBFFD" Background="White" Grid.Column="6" Margin="0,0,10,0" Click="AddTriangleButton_Click" Width="96"/>
+            </StackPanel>
+
+            <Button x:Name="calculateButton" Focusable="False" Content="Расчёт" Click="CalculateButton_Click" BorderBrush="#FFBFBFFD" Background="#FFBFD0F3" Grid.Column="2"/>
+            <Button x:Name="ClearButton" Focusable="False" Content="Очистить" BorderBrush="#FFBFBFFD" Background="White" Click="ClearButton_Click"/>
+        </Grid>
+
+        <!--<TextBox x:Name="editor_textbox" Margin="10,10,10,10" Text="123" TextWrapping="Wrap" BorderBrush="#FFBFBFFD" Grid.Row="1" FontSize="12" FontFamily="Courier New"/>-->
+    </Grid>
+</Window>
