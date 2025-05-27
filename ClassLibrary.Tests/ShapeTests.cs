@@ -1,8 +1,9 @@
-namespace ShapeLib.Tests
+/*using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace ClassLibrary.Tests
 {
-    /*
     [TestClass]
-    public class FigureClassTests
+    public class ShapeTests
     {
 
         //*********************************************************************************
@@ -17,9 +18,9 @@ namespace ShapeLib.Tests
             double expected = 60;
 
             // act
-            RectangleClass Rectangle = new RectangleClass();
+            var Rectangle = new Rectangle();
 
-            double actual = Rectangle.PerimeterCalculate(width, height);
+            var actual = Rectangle.GetPerimeter();
             // assert
             Assert.AreEqual(expected, actual);
         }
@@ -33,9 +34,9 @@ namespace ShapeLib.Tests
             double expected = 200;
 
             // act
-            RectangleClass Rectangle = new RectangleClass();
+            var Rectangle = new Rectangle();
 
-            double actual = Rectangle.AreaCalculate(width, height);
+            var actual = Rectangle.GetArea(width, height);
             // assert
             Assert.AreEqual(expected, actual);
         }
@@ -43,7 +44,7 @@ namespace ShapeLib.Tests
         public void Rectangle_ParceParametersTest()
         {
             // arrange
-            string[] parameters = new string[]
+            var parameters = new string[]
             {
                 "\"type\":rectangle",
                 "\"width\":10",
@@ -52,10 +53,10 @@ namespace ShapeLib.Tests
             double expectedPerimeter = 60;
 
             // act
-            RectangleClass Rectangle = new RectangleClass();
-            Rectangle.ParceParameters(parameters);
+            var Rectangle = new Rectangle();
+            Rectangle.ParseParameters(parameters);
 
-            double actual = Rectangle.PerimeterGet();
+            var actual = Rectangle.Perimeter;
             // assert
             Assert.AreEqual(expectedPerimeter, actual);
         }
@@ -71,9 +72,9 @@ namespace ShapeLib.Tests
             double expected = 100;
 
             // act
-            SquareClass Square = new SquareClass();
+            var Square = new Square();
 
-            double actual = Square.AreaCalculate(side);
+            var actual = Square.GetArea(side);
             // assert
             Assert.AreEqual(expected, actual);
         }
@@ -85,17 +86,17 @@ namespace ShapeLib.Tests
             double expected = 40;
 
             // act
-            SquareClass Square = new SquareClass();
+            var Square = new Square();
 
-            double actual = Square.PerimeterCalculate(side);
+            var actual = Square.GetPerimeter(side);
             // assert
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
-        public void Square_ParceParametersTest()
+        public void Square_ParseParametersTest()
         {
             // arrange
-            string[] parameters = new string[]
+            var parameters = new string[]
             {
                 "\"type\":square",
                 "\"side\":10",
@@ -103,10 +104,10 @@ namespace ShapeLib.Tests
             double expectedPerimeter = 40;
 
             // act
-            SquareClass item = new SquareClass();
-            item.ParceParameters(parameters);
+            var item = new Square();
+            item.ParseParameters(parameters);
 
-            double actual = item.PerimeterGet();
+            var actual = item.Perimeter;
             // assert
             Assert.AreEqual(expectedPerimeter, actual);
         }
@@ -118,13 +119,13 @@ namespace ShapeLib.Tests
         {
             // arrange
             double radius = 10;
-            int expected = (int)(314.15926 * 100.0); //убираем дробную часть
+            var expected = (int)(314.15926 * 100.0); //убираем дробную часть
 
             // act
-            Circle item = new Circle();
+            var item = new Circle();
 
-            double actual_double = item.AreaCalculate(radius);
-            int actual = (int)(actual_double * 100.0); //убираем дробную часть
+            var actual_double = item.AreaCalculate(radius);
+            var actual = (int)(actual_double * 100.0); //убираем дробную часть
             // assert
             Assert.AreEqual(expected, actual);
         }
@@ -133,13 +134,13 @@ namespace ShapeLib.Tests
         {
             // arrange
             double radius = 10;
-            int expected = (int)(62.83184 * 100.0); //убираем дробную часть
+            var expected = (int)(62.83184 * 100.0); //убираем дробную часть
 
             // act
-            Circle item = new Circle();
+            var item = new Circle();
 
-            double actual_double = item.PerimeterCalculate(radius);
-            int actual = (int)(actual_double * 100.0); //убираем дробную часть
+            var actual_double = item.PerimeterCalculate(radius);
+            var actual = (int)(actual_double * 100.0); //убираем дробную часть
             // assert
             Assert.AreEqual(expected, actual);
         }
@@ -147,19 +148,19 @@ namespace ShapeLib.Tests
         public void Сircle_ParceParametersTest()
         {
             // arrange
-            string[] parameters = new string[]
+            var parameters = new string[]
             {
                 "\"type\":circle",
                 "\"radius\":10",
             };
-            int expectedPerimeter = (int)(62.83184 * 100.0); //убираем дробную часть
+            var expectedPerimeter = (int)(62.83184 * 100.0); //убираем дробную часть
 
             // act
-            Circle item = new Circle();
-            item.ParceParameters(parameters);
+            var item = new Circle();
+            item.ParseParameters(parameters);
 
-            double actual_double = item.PerimeterGet();
-            int actual = (int)(actual_double * 100.0); //убираем дробную часть
+            var actual_double = item.Perimeter;
+            var actual = (int)(actual_double * 100.0); //убираем дробную часть
             // assert
             Assert.AreEqual(expectedPerimeter, actual);
         }
@@ -177,13 +178,13 @@ namespace ShapeLib.Tests
             double sideB = 2;
             double sideC = 1;
             double sideD = 3;
-            int expected = (int)(2.16506 * 100.0); //убираем дробную часть
+            var expected = (int)(2.16506 * 100.0);
 
             // act
-            TrapezoidClass item = new TrapezoidClass();
+            var item = new Trapezoid();
             
-            double actual_double = item.AreaCalculate(sideA, sideB, sideC, sideD);
-            int actual = (int)(actual_double * 100.0); //убираем дробную часть
+            var actual_double = item.GetArea(sideA, sideB, sideC, sideD);
+            var actual = (int)(actual_double * 100.0); 
             // assert
             Assert.AreEqual(expected, actual);
         }
@@ -198,17 +199,17 @@ namespace ShapeLib.Tests
             double expected = 7;
 
             // act
-            TrapezoidClass item = new TrapezoidClass();
+            var item = new Trapezoid();
 
-            double actual = item.PerimeterCalculate(sideA, sideB, sideC, sideD);
+            var actual = item.GetPerimeter(sideA, sideB, sideC, sideD);
             // assert
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
-        public void Trapezoid_ParceParametersTest()
+        public void Trapezoid_ParseParametersTest()
         {
             // arrange
-            string[] parameters = new string[]
+            var parameters = new string[]
             {
                 "\"type\":trapezoid",
                 "\"side_a\":2",
@@ -219,10 +220,10 @@ namespace ShapeLib.Tests
             double expectedPerimeter = 7;
 
             // act
-            TrapezoidClass item = new TrapezoidClass();
-            item.ParceParameters(parameters);
+            var item = new Trapezoid();
+            item.ParseParameters(parameters);
 
-            double actual = item.PerimeterGet();
+            var actual = item.Perimeter;
             // assert
             Assert.AreEqual(expectedPerimeter, actual);
         }
@@ -236,13 +237,13 @@ namespace ShapeLib.Tests
             double sideA = 2;
             double sideB = 2;
             double sideC = 2;
-            int expected = (int)(1.73 * 100.0); //убираем дробную часть
+            var expected = (int)(1.73 * 100.0); //убираем дробную часть
 
             // act
-            TriangleClass item = new TriangleClass();
+            var item = new Triangle();
 
-            double actual_double = item.AreaCalculate(sideA, sideB, sideC);
-            int actual= (int)(actual_double * 100.0); //убираем дробную часть
+            var actual_double = item.AreaCalculate(sideA, sideB, sideC);
+            var actual= (int)(actual_double * 100.0); //убираем дробную часть
             // assert
             Assert.AreEqual(expected, actual);
         }
@@ -256,17 +257,17 @@ namespace ShapeLib.Tests
             double expected = 6;
 
             // act
-            TriangleClass item = new TriangleClass();
+            var item = new Triangle();
 
-            double actual = item.PerimeterCalculate(sideA, sideB, sideC);
+            var actual = item.PerimeterCalculate(sideA, sideB, sideC);
             // assert
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
-        public void Triangle_ParceParametersTest()
+        public void Triangle_ParseParametersTest()
         {
             // arrange
-            string[] parameters = new string[]
+            var parameters = new string[]
             {
                 "\"type\":triangle",
                 "\"side_a\":2",
@@ -276,13 +277,13 @@ namespace ShapeLib.Tests
             double expectedPerimeter = 6;
 
             // act
-            TriangleClass item = new TriangleClass();
-            item.ParceParameters(parameters);
+            var item = new Triangle();
+            item.ParseParameters(parameters);
 
-            double actual = item.PerimeterGet();
+            var actual = item.Perimeter;
             // assert
             Assert.AreEqual(expectedPerimeter, actual);
         }
     }
-    */
 }
+*/

@@ -92,13 +92,15 @@ namespace Find.ViewModels
         private readonly IFileService _fileService;
         private readonly IShapeParser _shapeParser;
 
-        public FindViewModel()
+        public FindViewModel(IShapeCalculator calculator, IShapeParser parser,
+            IShapeTextGenerator textGenerator, IFileDialogService dialogService,
+            IFileService fileService, IFolderService folderService)
         {
-            _shapeTextGenerator = new ShapeTextGenerator();
-            _shapeCalculator = new ShapeCalculator();
-            _fileService = new FileService();
-            _fileDialogService = new FileDialogService();
-            _shapeParser = new ShapeParser();
+            _shapeTextGenerator = textGenerator;
+            _shapeCalculator = calculator;
+            _fileService = fileService;
+            _fileDialogService = dialogService;
+            _shapeParser = parser;
 
             SelectFolderCommand = new RelayCommand(_ => SelectFolder());
             SaveCommand = new RelayCommand(_ => Save());
@@ -111,7 +113,7 @@ namespace Find.ViewModels
             AddTrapezoidCommand = new RelayCommand(_ => AddShape("trapezoid"));
             AddTriangleCommand = new RelayCommand(_ => AddShape("triangle"));
 
-            ShapesFolderPath = new FolderService().CreateFolderInBaseDirectory("Shapes");
+            ShapesFolderPath = folderService.CreateFolderInBaseDirectory("Shapes");
 
             Clear();
         }
