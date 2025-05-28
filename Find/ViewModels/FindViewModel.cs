@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
 using System;
-using Find.Services;
 using Find.Services.Interfaces;
 using ShapeLib.Calculators;
 using ShapeLib.Generators;
@@ -19,6 +18,8 @@ namespace Find.ViewModels
         public ICommand AddCircleCommand { get; }
         public ICommand AddTriangleCommand { get; }
         public ICommand CalculateCommand { get; }
+        public ICommand CloseAppCommand { get; }
+        public ICommand ShowAboutCommand { get; }
 
         public string PlainText
         {
@@ -80,12 +81,15 @@ namespace Find.ViewModels
             }
         }
 
+        
+
         private string _averagePerimeter;
         private string _averageArea;
         private string _largestAreaShape;
         private string _shapeWithMaxAveragePerimeter;
         private string _plainText;
         private string _shapesFolderPath;
+        private readonly IWindowService _windowService;
         private readonly IShapeTextGenerator _shapeTextGenerator;
         private readonly IFileDialogService _fileDialogService;
         private readonly IShapeCalculator _shapeCalculator;
@@ -94,28 +98,40 @@ namespace Find.ViewModels
 
         public FindViewModel(IShapeCalculator calculator, IShapeParser parser,
             IShapeTextGenerator textGenerator, IFileDialogService dialogService,
-            IFileService fileService, IFolderService folderService)
+            IFileService fileService, IFolderService folderService, IWindowService windowService)
         {
             _shapeTextGenerator = textGenerator;
             _shapeCalculator = calculator;
             _fileService = fileService;
             _fileDialogService = dialogService;
             _shapeParser = parser;
+            _windowService = windowService;
 
             SelectFolderCommand = new RelayCommand(_ => SelectFolder());
             SaveCommand = new RelayCommand(_ => Save());
             CalculateCommand = new RelayCommand(_ => Calculate());
             ClearCommand = new RelayCommand(_ => Clear());
 
+            ShowAboutCommand = new RelayCommand(_ => ShowAbout());
+
             AddRectangleCommand = new RelayCommand(_ => AddShape("rectangle"));
             AddCircleCommand = new RelayCommand(_ => AddShape("circle"));
             AddSquareCommand = new RelayCommand(_ => AddShape("square"));
             AddTrapezoidCommand = new RelayCommand(_ => AddShape("trapezoid"));
             AddTriangleCommand = new RelayCommand(_ => AddShape("triangle"));
+            CloseAppCommand = new RelayCommand(_ => CloseApp());
 
             ShapesFolderPath = folderService.CreateFolderInBaseDirectory("Shapes");
 
             Clear();
+        }
+        private void ShowAbout()
+        {
+            _windowService.ShowDialog<AboutViewModel>();
+        }
+        private void CloseApp()
+        {
+            Environment.Exit(0);
         }
 
         private void AddShape(string shapeType)

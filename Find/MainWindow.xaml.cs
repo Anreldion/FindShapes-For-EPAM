@@ -10,3 +10,6 @@ namespace Find
         }
     }
 }
+//TODO: Undo/Redo
+//TODO: Validation
+//TODO: .NET 8

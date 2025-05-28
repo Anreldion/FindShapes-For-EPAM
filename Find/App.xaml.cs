@@ -34,7 +34,16 @@ namespace Find
 
         private void ConfigureServices(IServiceCollection services)
         {
+            // ViewModels
             services.AddSingleton<FindViewModel>();
+            services.AddTransient<AboutViewModel>();
+
+            // Windows
+            //services.AddSingleton<MainWindow>();
+            //services.AddTransient<MainWindow>();
+
+            // Services
+            services.AddSingleton<IWindowService, WindowService>();
 
             services.AddSingleton<IShapeCalculator, ShapeCalculator>();
             services.AddSingleton<IShapeParser, ShapeParser>();
