@@ -14,7 +14,7 @@ namespace Find.Services
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 

@@ -118,12 +118,13 @@ namespace Find.ViewModels
         private readonly IFileService _fileService;
         private readonly IShapeParser _shapeParser;
         private readonly IDialogService _dialogService;
+        private readonly IAppCloser _appCloser;
         private bool _hasUnsavedChanges;
 
 
         public MainWindowViewModel(IShapeCalculator calculator, IShapeParser parser,
             IShapeTextGenerator textGenerator, IFileDialogService fileDialogService,
-            IFileService fileService, IFolderService folderService, IWindowService windowService, IDialogService dialogService)
+            IFileService fileService, IFolderService folderService, IWindowService windowService, IDialogService dialogService, IAppCloser appCloser)
         {
             _shapeTextGenerator = textGenerator;
             _shapeCalculator = calculator;
@@ -132,6 +133,7 @@ namespace Find.ViewModels
             _shapeParser = parser;
             _windowService = windowService;
             _dialogService = dialogService;
+            _appCloser = appCloser;
 
             OpenCommand = new RelayCommand(_ => Open());
             SaveCommand = new RelayCommand(_ => Save());
@@ -160,7 +162,7 @@ namespace Find.ViewModels
         {
             if (!HasUnsavedChanges)
             {
-                Environment.Exit(0);
+                _appCloser.Close();
             }
 
             var result = _dialogService.AskSaveConfirmation();
@@ -170,7 +172,7 @@ namespace Find.ViewModels
                     Save();
                     break;
                 case UnsavedChangesResult.DontSave:
-                    Environment.Exit(0);
+                    _appCloser.Close();
                     break;
                 case UnsavedChangesResult.Cancel:
                     break;

@@ -50,7 +50,7 @@ namespace Find
             }
             catch (Exception exception)
             {
-                MessageBox.Show("A critical application error. Contact the developer.",
+                MessageBox.Show($"A critical application error. Contact the developer. Error info: {exception.Message}",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -72,6 +72,7 @@ namespace Find
 
             services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<IFolderService, FolderService>();
+            services.AddSingleton<IAppCloser, AppCloser>();
         }
     }
 }
