@@ -14,6 +14,24 @@
     FontSize="14"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <Window.InputBindings>
+        <KeyBinding
+            Key="O"
+            Command="{Binding OpenCommand}"
+            Modifiers="Control" />
+        <KeyBinding
+            Key="S"
+            Command="{Binding SaveCommand}"
+            Modifiers="Control" />
+        <KeyBinding
+            Key="S"
+            Command="{Binding SaveAsCommand}"
+            Modifiers="Control+Alt" />
+        <KeyBinding
+            Key="W"
+            Command="{Binding CloseAppCommand}"
+            Modifiers="Control" />
+    </Window.InputBindings>
 
     <Grid Background="GhostWhite">
         <Grid.RowDefinitions>
@@ -32,14 +50,34 @@
                 VerticalAlignment="Top"
                 FontSize="14">
                 <MenuItem Header="File">
-                    <MenuItem Command="{Binding OpenCommand}" Header="Open" />
-                    <MenuItem Command="{Binding SaveCommand}" Header="Save" />
-                    <MenuItem Command="{Binding SaveAsCommand}" Header="Save as..." />
-                    <MenuItem Command="{Binding CloseAppCommand}" Header="Close" />
+                    <MenuItem
+                        Command="{Binding OpenCommand}"
+                        Header="Open"
+                        InputGestureText="Ctrl+O" />
+                    <MenuItem
+                        Command="{Binding SaveCommand}"
+                        Header="Save"
+                        InputGestureText="Ctrl+S" />
+                    <MenuItem
+                        Command="{Binding SaveAsCommand}"
+                        Header="Save as..."
+                        InputGestureText="Ctrl+Alt+S" />
+                    <MenuItem
+                        Command="{Binding CloseAppCommand}"
+                        Header="Close"
+                        InputGestureText="Ctrl+W" />
                 </MenuItem>
                 <MenuItem Header="Edit">
-                    <MenuItem Header="Undo" />
-                    <MenuItem Header="Redo" />
+                    <MenuItem
+                        Command="ApplicationCommands.Undo"
+                        CommandTarget="{Binding ElementName=EditorBox}"
+                        Header="Undo"
+                        InputGestureText="Ctrl+Z" />
+                    <MenuItem
+                        Command="ApplicationCommands.Redo"
+                        CommandTarget="{Binding ElementName=EditorBox}"
+                        Header="Redo"
+                        InputGestureText="Ctrl+Y" />
                 </MenuItem>
                 <MenuItem Command="{Binding ShowAboutCommand}" Header="About" />
             </Menu>
@@ -104,6 +142,7 @@
             </StackPanel>
         </Grid>
         <TextBox
+            x:Name="EditorBox"
             Grid.Row="1"
             Margin="10,0,10,0"
             AcceptsReturn="True"

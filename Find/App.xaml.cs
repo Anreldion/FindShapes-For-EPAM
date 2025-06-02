@@ -42,6 +42,7 @@ namespace Find
 
             // Services
             services.AddSingleton<IWindowService, WindowService>();
+            services.AddSingleton<IDialogService, DialogService>();
 
             services.AddSingleton<IShapeCalculator, ShapeCalculator>();
             services.AddSingleton<IShapeParser, ShapeParser>();

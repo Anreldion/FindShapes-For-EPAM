@@ -4,6 +4,7 @@ using Find.Services.Interfaces;
 using ShapeLib.Calculators;
 using ShapeLib.Generators;
 using ShapeLib.Parsers;
+using Find.Services.enums;
 
 namespace Find.ViewModels
 {
@@ -28,7 +29,7 @@ namespace Find.ViewModels
             set
             {
                 _plainText = value;
-                IsPlainTextChanged = true;
+                HasUnsavedChanges = true;
                 OnPropertyChanged();
             }
         }
@@ -93,12 +94,12 @@ namespace Find.ViewModels
             }
         }
         
-        public bool IsPlainTextChanged
+        public bool HasUnsavedChanges
         {
-            get => _isPlainTextChanged;
+            get => _hasUnsavedChanges;
             set
             {
-                _isPlainTextChanged = value;
+                _hasUnsavedChanges = value;
                 OnPropertyChanged();
             }
         }
@@ -116,26 +117,27 @@ namespace Find.ViewModels
         private readonly IShapeCalculator _shapeCalculator;
         private readonly IFileService _fileService;
         private readonly IShapeParser _shapeParser;
-        private bool _isPlainTextChanged;
+        private readonly IDialogService _dialogService;
+        private bool _hasUnsavedChanges;
 
 
         public MainWindowViewModel(IShapeCalculator calculator, IShapeParser parser,
-            IShapeTextGenerator textGenerator, IFileDialogService dialogService,
-            IFileService fileService, IFolderService folderService, IWindowService windowService)
+            IShapeTextGenerator textGenerator, IFileDialogService fileDialogService,
+            IFileService fileService, IFolderService folderService, IWindowService windowService, IDialogService dialogService)
         {
             _shapeTextGenerator = textGenerator;
             _shapeCalculator = calculator;
             _fileService = fileService;
-            _fileDialogService = dialogService;
+            _fileDialogService = fileDialogService;
             _shapeParser = parser;
             _windowService = windowService;
+            _dialogService = dialogService;
 
             OpenCommand = new RelayCommand(_ => Open());
             SaveCommand = new RelayCommand(_ => Save());
             SaveAsCommand = new RelayCommand(_ => SaveAs());
             CalculateCommand = new RelayCommand(_ => Calculate());
             ClearCommand = new RelayCommand(_ => Clear());
-
             ShowAboutCommand = new RelayCommand(_ => ShowAbout());
 
             AddRectangleCommand = new RelayCommand(_ => AddShape("rectangle"));
@@ -149,13 +151,30 @@ namespace Find.ViewModels
 
             Clear();
         }
+
         private void ShowAbout()
         {
             _windowService.ShowDialog<AboutViewModel>();
         }
         private void CloseApp()
         {
-            Environment.Exit(0);
+            if (!HasUnsavedChanges)
+            {
+                Environment.Exit(0);
+            }
+
+            var result = _dialogService.AskSaveConfirmation();
+            switch (result)
+            {
+                case UnsavedChangesResult.Save:
+                    Save();
+                    break;
+                case UnsavedChangesResult.DontSave:
+                    Environment.Exit(0);
+                    break;
+                case UnsavedChangesResult.Cancel:
+                    break;
+            }
         }
 
         private void AddShape(string shapeType)
@@ -194,7 +213,9 @@ namespace Find.ViewModels
 
         private void Open()
         {
-            var path = _fileDialogService.OpenFileDialog("Text file (*.txt)|*.txt|All files (*.*)|*.*", ShapesFolderPath,
+            var openPath = string.IsNullOrEmpty(ShapesFilePath) ? ShapesFolderPath : ShapesFilePath;
+
+            var path = _fileDialogService.OpenFileDialog("Text file (*.txt)|*.txt|All files (*.*)|*.*", openPath,
                 "Select the file containing the list of shapes");
             if (string.IsNullOrEmpty(path)) return;
 
