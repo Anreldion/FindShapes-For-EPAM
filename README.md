@@ -86,4 +86,4 @@ This project is fully functional and ready for demonstration or further developm
 
 ## 📧 Author
 
-Developed by [Your Name] as part of a test task for EPAM Systems.
+Developed by Andrei Samusenka as part of a test task for EPAM Systems.
