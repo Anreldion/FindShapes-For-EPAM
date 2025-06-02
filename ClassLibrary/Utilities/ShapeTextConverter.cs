@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ShapeLib.Utilities
 {
@@ -7,29 +8,24 @@ namespace ShapeLib.Utilities
         public static string ToJson(string input)
         {
             var output = RemoveWhiteSpace(input);
-            output = AddCommaInTheEnd(output);
-            output = ReplaceCommaToSemicolon(output);
-            output = TypeToQuotations(output);
-            output = AddSquareBrackets(output);
-            output = RemoveLastComma(output);
-            return output;
+            output = ReplaceSemicolonsWithCommas(output);
+            output = AddCommaBetweenObjects(output);
+            output = QuoteTypeValues(output);
+
+            return $"[{output}]";
         }
 
-        private static string AddSquareBrackets(string text) => $"[{text}]";
-
-        private static string TypeToQuotations(string text) => text.Replace("trapezoid", "\"trapezoid\"")
-            .Replace("circle", "\"circle\"")
-            .Replace("rectangle", "\"rectangle\"")
-            .Replace("square", "\"square\"")
-            .Replace("triangle", "\"triangle\"");
-
-        private static string ReplaceCommaToSemicolon(string text) => text.Replace(";", ",");
-
         private static string RemoveWhiteSpace(string input) => new string(input.Where(c => !char.IsWhiteSpace(c)).ToArray());
+        private static string ReplaceSemicolonsWithCommas(string text) => text.Replace(";", ",");
 
-        private static string AddCommaInTheEnd(string input) => input.Replace(";}", "},");
+        private static string AddCommaBetweenObjects(string input)
+        {
+            var objects = Regex.Matches(input, @"\{.*?\}")
+                .Cast<Match>().Select(m => m.Value.Trim());
 
-        private static string RemoveLastComma(string input) => input.Replace("},]", "}]");
-
+            return string.Join(",", objects);
+        }
+        private static string QuoteTypeValues(string input) =>
+            Regex.Replace(input, @"(?<=""type"":)(trapezoid|circle|rectangle|square|triangle)(?=,|\})", "\"$1\"");
     }
 }

@@ -11,7 +11,8 @@
     <Product>Find Shapes</Product>
     <Authors>Andrei Samusenka</Authors>
     <Copyright>© 2025 Andrei Samusenka</Copyright>
-    <Description>1. Opening text files containing the following structure:
+    <Description>Features:
+1. Opening text files containing the following structure:
 
 { "type" : trapezoid; "side_a" : 1; "side_b" : 2; "side_c" : 1; "side_d" : 3; }
 { "type" : circle; "radius" : 10; }

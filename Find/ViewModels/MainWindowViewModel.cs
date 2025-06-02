@@ -187,7 +187,8 @@ namespace Find.ViewModels
             var shapes = _shapeParser.Parse(PlainText);
             if (shapes == null || shapes.Count == 0)
             {
-                throw new ArgumentNullException();
+                _dialogService.ShowError("Nothing to calculate! Please check input","Error");
+                return;
             }
 
             var largestAreaShape = _shapeCalculator.GetLargestAreaShape(shapes);

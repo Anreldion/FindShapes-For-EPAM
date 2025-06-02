@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Threading;
 using Find.Services;
 using Find.Services.Interfaces;
 using Find.Services.Models;
@@ -22,6 +23,9 @@ namespace Find
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            DispatcherUnhandledException += OnDispatcherUnhandledException;
+
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
 
@@ -34,13 +38,28 @@ namespace Find
             mainWindow.Show();
         }
 
+        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            try
+            {
+                var dialogService = ServiceProvider.GetService<IDialogService>();
+
+                dialogService?.ShowError(
+                    $"An unexpected error has occurred:\n{e.Exception.Message}",
+                    "Critical error");
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("A critical application error. Contact the developer.",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void ConfigureServices(IServiceCollection services)
         {
-            // ViewModels
             services.AddSingleton<MainWindowViewModel>();
             services.AddTransient<AboutViewModel>();
 
-            // Services
             services.AddSingleton<IWindowService, WindowService>();
             services.AddSingleton<IDialogService, DialogService>();
 

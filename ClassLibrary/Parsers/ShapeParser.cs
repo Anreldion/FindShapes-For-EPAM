@@ -12,7 +12,8 @@ namespace ShapeLib.Parsers
             var options = new JsonSerializerOptions
             {
                 Converters = { new ShapeConverter() },
-                PropertyNameCaseInsensitive = true
+                PropertyNameCaseInsensitive = true,
+                AllowTrailingCommas = true,
             };
             
             return JsonSerializer.Deserialize<List<Shape>>(ShapeTextConverter.ToJson(input), options);
