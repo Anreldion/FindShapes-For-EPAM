@@ -2,7 +2,9 @@
 using System.Windows;
 using Find.Services;
 using Find.Services.Interfaces;
+using Find.Services.Models;
 using Find.ViewModels;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using ShapeLib.Calculators;
 using ShapeLib.Generators;
@@ -27,7 +29,7 @@ namespace Find
 
             var mainWindow = new MainWindow
             {
-                DataContext = ServiceProvider.GetRequiredService<FindViewModel>()
+                DataContext = ServiceProvider.GetRequiredService<MainWindowViewModel>()
             };
             mainWindow.Show();
         }
@@ -35,12 +37,8 @@ namespace Find
         private void ConfigureServices(IServiceCollection services)
         {
             // ViewModels
-            services.AddSingleton<FindViewModel>();
+            services.AddSingleton<MainWindowViewModel>();
             services.AddTransient<AboutViewModel>();
-
-            // Windows
-            //services.AddSingleton<MainWindow>();
-            //services.AddTransient<MainWindow>();
 
             // Services
             services.AddSingleton<IWindowService, WindowService>();
@@ -49,7 +47,9 @@ namespace Find
             services.AddSingleton<IShapeParser, ShapeParser>();
             services.AddSingleton<IShapeTextGenerator, ShapeTextGenerator>();
 
-            services.AddSingleton<IFileDialogService, FileDialogService>();
+            services.AddTransient<IFileDialogService, FileDialogService>();
+            services.AddTransient<IValidator<FileDialogOptions>, FileDialogOptionsValidator>();
+
             services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<IFolderService, FolderService>();
         }

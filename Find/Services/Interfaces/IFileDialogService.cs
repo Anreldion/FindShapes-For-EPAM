@@ -2,7 +2,7 @@
 {
     public interface IFileDialogService
     {
-        string OpenFile(string filter, string initialDir, string title);
-        string SaveFile(string defaultFileName, string filter, string title);
+        string OpenFileDialog(string filter, string initialDirectory, string title);
+        string SaveAsFileDialog(string fileName, string initialDirectory, string filter, string title);
     }
 }

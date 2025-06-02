@@ -27,7 +27,7 @@ namespace Find.Services
         {
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
             var path = System.IO.Path.Combine(basePath, "Shapes");
-            if (string.IsNullOrEmpty(path) || IsExist(path))
+            if (!string.IsNullOrEmpty(path) || !IsExist(path))
             {
                 CreateFolder(path);
             }

@@ -7,10 +7,11 @@ using ShapeLib.Parsers;
 
 namespace Find.ViewModels
 {
-    public class FindViewModel : ViewModel
+    public class MainWindowViewModel : ViewModel
     {
         public ICommand SaveCommand { get; }
-        public ICommand SelectFolderCommand { get; }
+        public ICommand SaveAsCommand { get; }
+        public ICommand OpenCommand { get; }
         public ICommand ClearCommand { get; }
         public ICommand AddRectangleCommand { get; }
         public ICommand AddSquareCommand { get; }
@@ -27,6 +28,7 @@ namespace Find.ViewModels
             set
             {
                 _plainText = value;
+                IsPlainTextChanged = true;
                 OnPropertyChanged();
             }
         }
@@ -81,7 +83,25 @@ namespace Find.ViewModels
             }
         }
 
+        public string ShapesFilePath
+        {
+            get => _shapesFilePath;
+            set
+            {
+                _shapesFilePath = value;
+                OnPropertyChanged();
+            }
+        }
         
+        public bool IsPlainTextChanged
+        {
+            get => _isPlainTextChanged;
+            set
+            {
+                _isPlainTextChanged = value;
+                OnPropertyChanged();
+            }
+        }
 
         private string _averagePerimeter;
         private string _averageArea;
@@ -89,14 +109,17 @@ namespace Find.ViewModels
         private string _shapeWithMaxAveragePerimeter;
         private string _plainText;
         private string _shapesFolderPath;
+        private string _shapesFilePath;
         private readonly IWindowService _windowService;
         private readonly IShapeTextGenerator _shapeTextGenerator;
         private readonly IFileDialogService _fileDialogService;
         private readonly IShapeCalculator _shapeCalculator;
         private readonly IFileService _fileService;
         private readonly IShapeParser _shapeParser;
+        private bool _isPlainTextChanged;
 
-        public FindViewModel(IShapeCalculator calculator, IShapeParser parser,
+
+        public MainWindowViewModel(IShapeCalculator calculator, IShapeParser parser,
             IShapeTextGenerator textGenerator, IFileDialogService dialogService,
             IFileService fileService, IFolderService folderService, IWindowService windowService)
         {
@@ -107,8 +130,9 @@ namespace Find.ViewModels
             _shapeParser = parser;
             _windowService = windowService;
 
-            SelectFolderCommand = new RelayCommand(_ => SelectFolder());
+            OpenCommand = new RelayCommand(_ => Open());
             SaveCommand = new RelayCommand(_ => Save());
+            SaveAsCommand = new RelayCommand(_ => SaveAs());
             CalculateCommand = new RelayCommand(_ => Calculate());
             ClearCommand = new RelayCommand(_ => Clear());
 
@@ -168,25 +192,36 @@ namespace Find.ViewModels
             ShapeWithMaxAveragePerimeter = "0";
         }
 
-        private void SelectFolder()
+        private void Open()
         {
-            var path = _fileDialogService.OpenFile("Text file (*.txt)|*.txt|All files (*.*)|*.*", _shapesFolderPath,
+            var path = _fileDialogService.OpenFileDialog("Text file (*.txt)|*.txt|All files (*.*)|*.*", ShapesFolderPath,
                 "Select the file containing the list of shapes");
-            if (!string.IsNullOrEmpty(path))
-            {
-                PlainText = _fileService.ReadFile(path);
-            }
+            if (string.IsNullOrEmpty(path)) return;
+
+            ShapesFilePath = path;
+            PlainText = _fileService.ReadFile(path);
         }
 
         private void Save()
         {
-            var path = _fileDialogService.SaveFile("Plane", "Text file (*.txt)|*.txt|All files (*.*)|*.*",
-                "Save file");
-            if (!string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(ShapesFilePath))
             {
-                _fileService.WriteFile(path, PlainText);
+                SaveAs();
+            }
+            else
+            {
+                _fileService.WriteFile(ShapesFilePath, PlainText);
             }
         }
 
+        private void SaveAs()
+        {
+            var path = _fileDialogService.SaveAsFileDialog("Shapes", ShapesFolderPath, "Text file (*.txt)|*.txt|All files (*.*)|*.*",
+                "Save file");
+            if (string.IsNullOrEmpty(path)) return;
+
+            ShapesFilePath = path;
+            _fileService.WriteFile(path, PlainText);
+        }
     }
 }

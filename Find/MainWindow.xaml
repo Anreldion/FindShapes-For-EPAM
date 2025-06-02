@@ -10,7 +10,7 @@
     Height="633"
     MinWidth="715"
     MinHeight="250"
-    d:DataContext="{d:DesignInstance Type=viewmodels:FindViewModel}"
+    d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
     FontSize="14"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -32,9 +32,9 @@
                 VerticalAlignment="Top"
                 FontSize="14">
                 <MenuItem Header="File">
-                    <MenuItem Command="{Binding SelectFolderCommand}" Header="Open" />
+                    <MenuItem Command="{Binding OpenCommand}" Header="Open" />
                     <MenuItem Command="{Binding SaveCommand}" Header="Save" />
-                    <MenuItem Header="Save as..." />
+                    <MenuItem Command="{Binding SaveAsCommand}" Header="Save as..." />
                     <MenuItem Command="{Binding CloseAppCommand}" Header="Close" />
                 </MenuItem>
                 <MenuItem Header="Edit">
