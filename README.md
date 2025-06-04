@@ -1,13 +1,13 @@
-# 🧩 FindShapes – EPAM Test Task
+# FindShapes – Test Task
 
-This is a WPF-based desktop application developed as a test assignment for **EPAM**.
+This is a WPF-based desktop application developed as a test assignment.
 
-## 📌 Features
+## Features
 
-- 🗂️ **Open text files** with a custom shape description format
-- 💾 **Save** and **edit** shape data in a built-in document editor
-- ➕ **Add shapes** with a single click using the UI (Trapezoid, Circle, Rectangle, Triangle, Square)
-- 🧮 **Calculate** geometric properties as required by the assignment:
+- **Open text files** with a custom shape description format
+- **Save** and **edit** shape data in a built-in document editor
+- **Add shapes** with a single click using the UI (Trapezoid, Circle, Rectangle, Triangle, Square)
+- **Calculate** geometric properties as required by the assignment:
   - Total and average areas
   - Perimeters
   - Shape with the largest area
@@ -15,7 +15,7 @@ This is a WPF-based desktop application developed as a test assignment for **EPA
 
 ---
 
-## 📄 Supported Input Format
+## Supported Input Format
 
 Each shape is described in its own **block**, using the following syntax (semicolon-separated, not strict JSON):
 
@@ -57,7 +57,7 @@ Each shape is described in its own **block**, using the following syntax (semico
 
 ---
 
-## 🧠 Technical Overview
+## Technical Overview
 
 - Written in **C# / WPF** using **MVVM** pattern
 - Modular architecture with:
@@ -69,13 +69,13 @@ Each shape is described in its own **block**, using the following syntax (semico
 
 ---
 
-## ✅ Status
+## Status
 
 This project is fully functional and ready for demonstration or further development.
 
 ---
 
-## 🧪 How to Run
+## How to Run
 
 1. Clone the repository
 2. Open in **Visual Studio 2022+**
@@ -84,6 +84,6 @@ This project is fully functional and ready for demonstration or further developm
 
 ---
 
-## 📧 Author
+## Author
 
 Developed by Andrei Samusenka as part of a test task for EPAM Systems.
