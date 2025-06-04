@@ -17,5 +17,9 @@
     <ProjectReference Include="..\ClassLibrary\ShapeLib.csproj" />
     <ProjectReference Include="..\Find\Find.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Calculators\" />
+  </ItemGroup>
   
 </Project>

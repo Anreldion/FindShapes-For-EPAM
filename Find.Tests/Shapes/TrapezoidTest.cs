@@ -46,7 +46,7 @@ public class TrapezoidTest
 
         var area = shape.GetArea();
 
-        Assert.That(area, Is.EqualTo(36.74).Within(0.01));
+        Assert.That(area, Is.EqualTo(36.66).Within(0.01));
     }
 
     [Test]

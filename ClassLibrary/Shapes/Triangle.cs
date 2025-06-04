@@ -23,7 +23,8 @@ namespace ShapeLib.Shapes
         public override double GetArea()
         {
             var semiPerimeter = (Side_a + Side_b + Side_c) / 2;
-            return Math.Sqrt(semiPerimeter * (semiPerimeter - Side_a) * (semiPerimeter - Side_b) * (semiPerimeter - Side_c));
+            var result = Math.Sqrt(semiPerimeter * (semiPerimeter - Side_a) * (semiPerimeter - Side_b) * (semiPerimeter - Side_c));
+            return double.IsNaN(result) ? 0 : result;
         }
 
         public override double GetPerimeter() => Side_a + Side_b + Side_c;

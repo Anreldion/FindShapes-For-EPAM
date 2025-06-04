@@ -1,66 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ShapeLib.Shapes;
+using ShapeLib.Utilities;
 
 namespace ShapeLib.Calculators
 {
+    /// <summary>
+    /// Provides geometric calculations for collections of shapes.
+    /// </summary>
     public class ShapeCalculator : IShapeCalculator
     {
         public Shape GetLargestAreaShape(IEnumerable<Shape> list)
         {
-            var shape = list.FirstOrDefault();
-            if (shape == null)
-            {
-                throw new ArgumentNullException();
-            }
+            Guard.NotNull(list, nameof(list));
+            Guard.NotEmpty(list, nameof(list));
 
-            foreach (var item in list)
-            {
-                if (shape.GetPerimeter() < item.GetPerimeter())
-                {
-                    shape = item;
-                }
-            }
-            return shape;
+            return list.OrderByDescending(s => s.GetArea()).First();
         }
 
         public double GetAveragePerimeter(IEnumerable<Shape> list)
         {
-            double perimeter = 0;
-            foreach (var item in list)
-            {
-                perimeter += item.GetPerimeter();
-            }
-            return perimeter / list.Count();
+            Guard.NotNull(list, nameof(list));
+            Guard.NotEmpty(list, nameof(list));
+
+            return list.Average(s => s.GetPerimeter());
         }
 
         public double GetAreaSum(IEnumerable<Shape> list)
         {
-            double area = 0;
-            foreach (var item in list)
-            {
-                area += item.GetArea();
-            }
-            return area;
+            Guard.NotNull(list, nameof(list));
+
+            return list.Sum(s => s.GetArea());
         }
 
         public KeyValuePair<string, double> GetShapeWithMaxAveragePerimeter(IEnumerable<Shape> list)
         {
-            var shapes = new Dictionary<string, double>();
-            foreach (var item in list)
-            {
-                if (shapes.ContainsKey(item.Name))
-                {
-                    shapes[item.Name] += item.GetPerimeter();
-                }
-                else
-                {
-                    shapes.Add(item.Name, item.GetPerimeter());
-                }
-            }
+            Guard.NotNull(list, nameof(list));
+            Guard.NotEmpty(list, nameof(list));
 
-            return shapes.Aggregate((l, r) => l.Value > r.Value ? l : r);
+            return list
+                .GroupBy(s => s.Name)
+                .Select(g => new KeyValuePair<string, double>(g.Key, g.Average(s => s.GetPerimeter())))
+                .OrderByDescending(kvp => kvp.Value)
+                .First();
         }
     }
 }
