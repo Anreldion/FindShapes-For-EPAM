@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Find.ViewModels
+namespace Find.Services.Interfaces
 {
     public interface IClosable
     {

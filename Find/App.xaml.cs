@@ -4,6 +4,7 @@ using System.Windows.Threading;
 using Find.Services;
 using Find.Services.Interfaces;
 using Find.Services.Models;
+using Find.Services.Models.Validators;
 using Find.ViewModels;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;

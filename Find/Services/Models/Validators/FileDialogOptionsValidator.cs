@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Find.Services.Models;
+namespace Find.Services.Models.Validators;
 
 public class FileDialogOptionsValidator: AbstractValidator<FileDialogOptions>
 {
